@@ -77,6 +77,12 @@ public class Main {
                 Object solved = ((Map<String, Object>) myData.get("codingTest")).get("solved");
                 Object rank = ((Map<String, Object>) myData.get("ranking")).get("rank");
 
+                // 프로그래머스 API 응답 로그 확인
+                System.out.println("level = " + level);
+                System.out.println("score = " + score);
+                System.out.println("solved = " + solved);
+                System.out.println("rank = " + rank);
+
                 // 데이터를 String 타입으로 변환하여 안전하게 사용
                 String svgContent = String.format(
                         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
