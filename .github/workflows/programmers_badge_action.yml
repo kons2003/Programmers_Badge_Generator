@@ -23,6 +23,22 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Run Java program
+      - name: Check generated badge
+        run: |
+          echo "Working directory:"
+          pwd
+
+          echo "Generated file:"
+          ls -l result/result.svg
+
+          echo "Git status:"
+          git status --short
+
+          echo "Badge values:"
+          grep -oE '>[^<>]+</text>' result/result.svg | tail -n 8
+
+          echo "Diff:"
+          git diff -- result/result.svg
         env:
           PROGRAMMERS_TOKEN_ID: ${{ secrets.PROGRAMMERS_TOKEN_ID }}
           PROGRAMMERS_TOKEN_PW: ${{ secrets.PROGRAMMERS_TOKEN_PW }}
@@ -36,8 +52,11 @@ jobs:
           git config --global user.email "${{ env.GIT_EMAIL }}"
           git config --global user.name "${{ env.GIT_NAME }}"
           git add .
+          echo "Staged diff:"
+          git diff --cached -- result/result.svg
+
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "result.svg has no changes."
             exit 0
           fi
           git commit -m "Update badge"
