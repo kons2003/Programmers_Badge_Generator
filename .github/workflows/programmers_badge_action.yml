@@ -23,6 +23,10 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Run Java program
+        env:
+          PROGRAMMERS_TOKEN_ID: ${{ secrets.PROGRAMMERS_TOKEN_ID }}
+          PROGRAMMERS_TOKEN_PW: ${{ secrets.PROGRAMMERS_TOKEN_PW }}
+        run: ./gradlew run
       - name: Check generated badge
         run: |
           echo "Working directory:"
@@ -39,10 +43,6 @@ jobs:
 
           echo "Diff:"
           git diff -- result/result.svg
-        env:
-          PROGRAMMERS_TOKEN_ID: ${{ secrets.PROGRAMMERS_TOKEN_ID }}
-          PROGRAMMERS_TOKEN_PW: ${{ secrets.PROGRAMMERS_TOKEN_PW }}
-        run: ./gradlew run
       - name: Commit and Push changes
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
